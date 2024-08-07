@@ -1,4 +1,4 @@
-import {create} from 'zustand';
+import create from 'zustand';
 
 type Marker = {
   lat: number;
@@ -14,6 +14,7 @@ type MarkerStore = {
   selectedMarkers: Marker[];
   directions: google.maps.DirectionsResult | null;
   addMarker: (marker: Marker) => void;
+  updateMarker: (marker: Marker) => void;
   setSelectedMarker: (marker: Marker | null) => void;
   toggleSelectMarker: (marker: Marker) => void;
   setDirections: (directions: google.maps.DirectionsResult | null) => void;
@@ -29,6 +30,14 @@ export const useMarkerStore = create<MarkerStore>((set) => ({
   addMarker: (marker) =>
     set((state) => ({
       markers: [...state.markers, marker],
+    })),
+  updateMarker: (updatedMarker) =>
+    set((state) => ({
+      markers: state.markers.map((marker) =>
+        marker.lat === updatedMarker.lat && marker.lng === updatedMarker.lng
+          ? { ...marker, ...updatedMarker }
+          : marker
+      ),
     })),
   setSelectedMarker: (marker) => set({ selectedMarker: marker }),
   toggleSelectMarker: (marker) =>

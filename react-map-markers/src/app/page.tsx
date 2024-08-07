@@ -14,9 +14,11 @@ const center : google.maps.LatLngLiteral = {
 export default function Home() {
   const markers = useMarkerStore((state) => state.markers);
   const selectedMarker = useMarkerStore((state) => state.selectedMarker);
+  const selectedMarkers = useMarkerStore((state) => state.selectedMarkers);
   const setSelectedMarker = useMarkerStore((state) => state.setSelectedMarker);
-  const updateSelectedMarker = useMarkerStore((state) => state.updateSelectedMarker);
   const toggleSelectMarker = useMarkerStore((state) => state.toggleSelectMarker);
+  const updateSelectedMarker = useMarkerStore((state) => state.updateSelectedMarker);
+  const clearSelectedMarkers = useMarkerStore((state) => state.clearSelectedMarkers);
 
   const [mapCenter, setMapCenter] = useState(center);
 
@@ -32,7 +34,7 @@ export default function Home() {
 
   const handleColorChange = (color: string) => {
     if (selectedMarker) {
-      setSelectedMarker({ ...selectedMarker, color });
+      updateSelectedMarker({ color });
     }
   };
 
@@ -48,13 +50,15 @@ export default function Home() {
     }
   }, [selectedMarker]);
 
+  const isUpdate = markers.some(
+    (marker) => marker.lat === selectedMarker?.lat && marker.lng === selectedMarker?.lng
+  );
   return (
     <Box display="flex">
        <Map
           style={{width: '100vw', height: '100vh'}}
           defaultZoom={8}
           mapId='DEMO_MAP_ID'
-          center={mapCenter}
           defaultCenter={ center }
           onClick={onMapClick}
           onCameraChanged={ (ev: MapCameraChangedEvent) =>
@@ -72,8 +76,10 @@ export default function Home() {
         {selectedMarker && (
           <>
           <AdvancedMarker
+            key={selectedMarker.name}
             position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
-            title={selectedMarker.name}>
+            title={selectedMarker.name}
+            onClick={() => setSelectedMarker(selectedMarker)}>
               <Pin background={selectedMarker.color} glyphColor={'#000'} borderColor={'#000'} />
             </AdvancedMarker>
             <MarkerPopup
@@ -84,6 +90,7 @@ export default function Home() {
               onClose={handlePopupClose}
               onColorChange={handleColorChange}
               onNameChange={handleNameChange}
+              isUpdate={isUpdate}
             />
           </>
         )}
@@ -101,7 +108,7 @@ export default function Home() {
               backgroundColor="gray.100"
               _hover={{ backgroundColor: "gray.200" }}
               cursor="pointer"
-              onClick={() => toggleSelectMarker(marker)}
+              onClick={() => setSelectedMarker(marker)}
             >
               <Text fontWeight="bold">{marker.name}</Text>
               <Text fontSize="sm">Lat: {marker.lat.toFixed(4)}, Lng: {marker.lng.toFixed(4)}</Text>

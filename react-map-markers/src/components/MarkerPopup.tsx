@@ -1,87 +1,98 @@
-'use client'
-
-import { useState, useEffect } from "react";
-import { Box, Button, IconButton, Input, Text, VStack } from "@chakra-ui/react";
+import { useState, useEffect } from 'react';
+import { Box, Button, Input, VStack, IconButton } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
-
-import { useMarkerStore } from "../store/useMarkerStore";
+import { useMarkerStore } from '../store/useMarkerStore';
 
 type MarkerPopupProps = {
-    lat: number;
-    lng: number;
-    color: string;
-    name: string;
-    onClose: () => void;
-    onColorChange: (color: string) => void;
-    onNameChange: (name: string) => void;
+  lat: number;
+  lng: number;
+  color: string;
+  name: string;
+  onClose: () => void;
+  onColorChange: (color: string) => void;
+  onNameChange: (name: string) => void;
+  isUpdate: boolean;
 };
 
-const MarkerPopup = ({ lat, lng, color, name, onClose, onColorChange, onNameChange }: MarkerPopupProps) => {
-    const [selectedColor, setSelectedColor] = useState(color);
-    const [locationName, setLocationName] = useState(name);
+const MarkerPopup = ({
+  lat,
+  lng,
+  color,
+  name,
+  onClose,
+  onColorChange,
+  onNameChange,
+  isUpdate,
+}: MarkerPopupProps) => {
+  const [selectedColor, setSelectedColor] = useState(color);
+  const [locationName, setLocationName] = useState(name);
+  const addMarker = useMarkerStore((state) => state.addMarker);
+  const updateMarker = useMarkerStore((state) => state.updateMarker);
 
-    useEffect(() => {
-        setSelectedColor(color);
-    }, [color]);
+  useEffect(() => {
+    setSelectedColor(color);
+  }, [color]);
 
-    useEffect(() => {
-        setLocationName(name);
-    }, [name]);
+  useEffect(() => {
+    setLocationName(name);
+  }, [name]);
 
-    const handleAdd = () => {
-        const addMarker = useMarkerStore.getState().addMarker;
-        addMarker({ lat, lng, color: selectedColor, time: new Date(), name: locationName });
-        onClose();
-    };
+  const handleSave = () => {
+    const marker = { lat, lng, color: selectedColor, time: new Date(), name: locationName };
+    if (isUpdate) {
+      updateMarker(marker);
+    } else {
+      addMarker(marker);
+    }
+    onClose();
+  };
 
-    return (
-        <Box
-            position="absolute"
-            top="52%"
-            left="2.5%"
-            backgroundColor="white"
-            padding="10px"
-            borderRadius="14px"
-            shadow="lg"
-            zIndex="1"
-        >
-            <IconButton
-                aria-label="Close"
-                icon={<CloseIcon />}
-                size="sm"
-                onClick={onClose}
-            />
-            <VStack spacing={4}>
-                <Text fontSize={'larger'} fontWeight={'bolder'} style={{ alignSelf: 'center' }} >Location</Text>
-                <Text style={{ alignSelf: 'start' }} >Name:</Text>
-                <Input
-                    type="text"
-                    value={locationName}
-                    placeholder="Location Name"
-                    onChange={(e) => {
-                        setLocationName(e.target.value);
-                        onNameChange(e.target.value);
-                    }}
-                />
-                <Text style={{ alignSelf: 'start' }} >Marker</Text>
-                <Box fontSize={'larger'}>
-                    Lat: {lat.toFixed(4)}, Lng: {lng.toFixed(4)}
-                </Box>
-                <Text style={{ alignSelf: 'start' }} >Renk:</Text>
-                <Input
-                    type="color"
-                    value={selectedColor}
-                    onChange={(e) => {
-                        setSelectedColor(e.target.value);
-                        onColorChange(e.target.value);
-                    }}
-                />
-                <Button inlineSize={'-webkit-fill-available'} onClick={handleAdd} colorScheme="blue">
-                    Ekle
-                </Button>
-            </VStack>
+  return (
+    <Box
+      position="absolute"
+      top="10px"
+      left="10px"
+      backgroundColor="white"
+      padding="10px"
+      borderRadius="5px"
+      shadow="md"
+      zIndex="1"
+    >
+      <VStack spacing={4}>
+        <Box display="flex" justifyContent="space-between" width="100%">
+          <Box>
+            Lat: {lat.toFixed(4)}, Lng: {lng.toFixed(4)}
+          </Box>
+          <IconButton
+            aria-label="Close"
+            icon={<CloseIcon />}
+            size="sm"
+            onClick={onClose}
+          />
         </Box>
-    );
+        <Input
+          type="text"
+          value={locationName}
+          placeholder="Location Name"
+          onChange={(e) => {
+            setLocationName(e.target.value);
+            onNameChange(e.target.value);
+          }}
+        />
+        <Input
+          type="color"
+          value={selectedColor}
+          onChange={(e) => {
+            setSelectedColor(e.target.value);
+            onColorChange(e.target.value);
+          }}
+        />
+        <Button onClick={handleSave} colorScheme="blue">
+          {isUpdate ? 'Update' : 'Add'}
+        </Button>
+      </VStack>
+    </Box>
+  );
 };
 
 export default MarkerPopup;
