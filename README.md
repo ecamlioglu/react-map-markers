@@ -9,8 +9,8 @@ This project is a NextJS App project for creating and managing map markers using
 - [API Reference](#api-reference)
 - [Contributing](#contributing)
 - [CI/CD](#cicd)
-- [License](#license)
-
+- [Workflows](#workflows)
+  
 ## Features
 
 - Add and remove markers on Google Maps
@@ -38,9 +38,9 @@ I’ve used the Google Maps JS API with visgl/react-google-maps. If you need ins
 ## Contributing
 I welcome contributions to improve this library! If you have any suggestions, feature requests, or bug reports, please open an issue or submit a pull request. 
 
-CI/CD
+## CI/CD
 I use GitHub Actions for continuous integration and continuous deployment. The CI/CD pipeline is defined in the .github/workflows directory. This workflow sending build result directly to Netlify.
 
-Workflows
+## Workflows
 Build: This workflow runs on every push and pull request to ensure the code builds correctly.
 Deploy: This workflow runs on the main branch and deploys the application to the production environment.
