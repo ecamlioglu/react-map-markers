@@ -1,3 +1,5 @@
+[![Deploy website](https://github.com/ecamlioglu/react-map-markers/actions/workflows/deploy.yml/badge.svg?branch=main)](https://github.com/ecamlioglu/react-map-markers/actions/workflows/deploy.yml)
+
 # React Map Markers
 
 This project is a NextJS App project for creating and managing map markers using Google Maps API. It allows for adding, removing, and customizing markers, and includes functionalities for creating routes with saved locations. This library uses Zustand for state management and Chakra UI for styling components.
