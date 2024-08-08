@@ -8,24 +8,29 @@ jobs:
     steps:
       - name: Repository Checkout
         uses: actions/checkout@v4
+        
 
       - name: Setup NodeJS
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: "npm"
+          working-directory: ../react-map-markers
 
       - name: Install Netlify
         run: npm install netlify-cli@17.10.1 -g
 
       - name: Install Dependencies
         run: npm ci
+        working-directory: ../react-map-markers
 
       - name: Build project
         run: npm build
+        working-directory: ../react-map-markers
 
       - name: Deploy to Netlify
         id: netlify_deploy
+        working-directory: ../react-map-markers
         run: |
           netlify deploy \
             --dir dist \
