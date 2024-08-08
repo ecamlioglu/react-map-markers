@@ -1,6 +1,9 @@
+'use client'
+import React from 'react'
 import Navbar from './components/Navbar'
 import { fonts } from './fonts'
 import { Providers } from './providers'
+import dynamic from 'next/dynamic'
 
 export default function RootLayout({
   children,
@@ -9,9 +12,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en' className={fonts.poppins.className}>
-      <body>
-        <Navbar/>
-        <Providers>{children}</Providers>
+      <body style={{
+        'maxHeight': '100vh',
+      }}>
+          <Navbar/>
+          <Providers>{children}</Providers>
       </body>
     </html>
   )

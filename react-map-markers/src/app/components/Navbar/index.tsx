@@ -9,12 +9,13 @@ import {
   PopoverContent,
   useColorModeValue,
 } from '@chakra-ui/react'
+import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function WithSubnavigation() {
   return (
-    <Box>
+    <Box position='sticky' top='0'>
       <Flex
         bg={useColorModeValue('white', 'gray.800')}
         color={useColorModeValue('gray.600', 'white')}
@@ -55,24 +56,34 @@ const DesktopNav = () => {
       {NAV_ITEMS.map((navItem) => {
         const isCurrentPage = pathName === navItem.href;
         return (
-          <Box key={navItem.label}>
+          <Box style={{
+            borderWidth: '1px',
+            borderColor: 'black',
+            borderStyle: 'solid',
+            padding: '12px',
+            borderBottom: 'none',
+            'borderRadius': '12px',
+            'borderBottomLeftRadius': '0',
+            'borderBottomRightRadius': '0',
+            'boxShadow': '0px 0px 12px 0px rgba(0, 0, 0, 0.5)'
+          }} key={navItem.label}>
             <Popover trigger={'hover'} placement={'bottom-start'}>
               <PopoverTrigger>
+              <Link href={navItem.href ?? '#'} passHref>
                 <Box
-                  as="a"
-                  p={2}
-                  href={navItem.href ?? '#'}
-                  fontSize={'sm'}
-                  fontWeight={500}
-                  color={linkColor}
-                  opacity={isCurrentPage ? 0.6 : 1}  // Adjust opacity for the current page
-                  _hover={{
-                    textDecoration: 'none',
-                    color: linkHoverColor,
-                    opacity: 1,
-                  }}>
+                    p={2}
+                    fontSize={'sm'}
+                    fontWeight={500}
+                    color={linkColor}
+                    opacity={isCurrentPage ? 0.6 : 1}
+                    _hover={{
+                      textDecoration: 'none',
+                      color: linkHoverColor,
+                      opacity: 1,
+                    }}>
                   {navItem.label}
                 </Box>
+              </Link>
               </PopoverTrigger>
 
               {navItem.children && (

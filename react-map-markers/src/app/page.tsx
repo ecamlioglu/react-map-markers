@@ -58,7 +58,7 @@ export default function Home() {
        <Map
           style={{width: '100vw', height: '100vh'}}
           defaultZoom={8}
-          mapId='DEMO_MAP_ID'
+          mapId='SELECTABLE_MAP'
           defaultCenter={ center }
           onClick={onMapClick}
           onCameraChanged={ (ev: MapCameraChangedEvent) =>
@@ -74,7 +74,7 @@ export default function Home() {
             </AdvancedMarker>
         ))}
         {selectedMarker && (
-          <>
+          <div>
           <AdvancedMarker
             key={selectedMarker.name}
             position={{ lat: selectedMarker.lat, lng: selectedMarker.lng }}
@@ -92,11 +92,11 @@ export default function Home() {
               onNameChange={handleNameChange}
               isUpdate={isUpdate}
             />
-          </>
+          </div>
         )}
       </Map>
       {markers.length > 0 && (
-        <>
+        <div>
         <Box width="30%" padding="2%" position="absolute" right="8" top="16"
           backgroundColor="white" boxShadow="lg">
           <Heading as="h3" size="lg" mb="4">
@@ -119,7 +119,7 @@ export default function Home() {
             ))}
           </List>
         </Box>
-        </>
+        </div>
       )}
     </Box>
   );

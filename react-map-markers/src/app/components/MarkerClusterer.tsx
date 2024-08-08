@@ -1,7 +1,7 @@
 'use client'
 import React, { useEffect, useRef } from 'react';
 import { MarkerClusterer } from '@googlemaps/markerclusterer';
-import { useMarkerStore } from '../store/useMarkerStore';
+import { useMarkerStore } from '@/store/useMarkerStore';
 
 type MarkerClustererProps = {
   map: google.maps.Map | null;

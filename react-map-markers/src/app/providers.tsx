@@ -16,12 +16,13 @@ export function Providers({ children }: ProvidersProps) {
     throw new Error("Google Maps API key is not defined");
   }
 
-  return <>
-    <ChakraProvider>
-
-      <APIProvider apiKey={googleMapsApiKey} onLoad={() => console.log('Maps API has loaded.')}>
-        {children}
-      </APIProvider>
-    </ChakraProvider>
-  </>
+  return (
+    <div>
+      <ChakraProvider>
+        <APIProvider apiKey={googleMapsApiKey} onLoad={() => console.log('Maps API has loaded.')}>
+          {children}
+        </APIProvider>
+      </ChakraProvider>
+    </div>
+  );
 }
