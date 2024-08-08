@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import { Box, Heading, List, ListItem, Text } from "@chakra-ui/react";
 import { useMarkerStore } from "../store/useMarkerStore";
-import MarkerPopup from "../components/MarkerPopup";
 import { Map, MapCameraChangedEvent, MapMouseEvent, AdvancedMarker, Pin } from "@vis.gl/react-google-maps";
+import MarkerPopup from "./components/MarkerPopup";
 
 const center : google.maps.LatLngLiteral = {
   lat: 37.7749,
@@ -54,7 +54,7 @@ export default function Home() {
     (marker) => marker.lat === selectedMarker?.lat && marker.lng === selectedMarker?.lng
   );
   return (
-    <Box display="flex">
+    <Box display="flex" width="100%">
        <Map
           style={{width: '100vw', height: '100vh'}}
           defaultZoom={8}
@@ -95,27 +95,32 @@ export default function Home() {
           </>
         )}
       </Map>
-      <Box width="30%" padding="2%" backgroundColor="white" boxShadow="lg">
-        <Heading as="h3" size="lg" mb="4">
-          Locations
-        </Heading>
-        <List spacing={3}>
-          {markers.map((marker, index) => (
-            <ListItem
-              key={index}
-              p="3"
-              borderRadius="md"
-              backgroundColor="gray.100"
-              _hover={{ backgroundColor: "gray.200" }}
-              cursor="pointer"
-              onClick={() => setSelectedMarker(marker)}
-            >
-              <Text fontWeight="bold">{marker.name}</Text>
-              <Text fontSize="sm">Lat: {marker.lat.toFixed(4)}, Lng: {marker.lng.toFixed(4)}</Text>
-            </ListItem>
-          ))}
-        </List>
-      </Box>
+      {markers.length > 0 && (
+        <>
+        <Box width="30%" padding="2%" position="absolute" right="8" top="16"
+          backgroundColor="white" boxShadow="lg">
+          <Heading as="h3" size="lg" mb="4">
+            Locations
+          </Heading>
+          <List spacing={3}>
+            {markers.map((marker, index) => (
+              <ListItem
+                key={index}
+                p="3"
+                borderRadius="md"
+                backgroundColor="gray.100"
+                _hover={{ backgroundColor: "gray.200" }}
+                cursor="pointer"
+                onClick={() => setSelectedMarker(marker)}
+              >
+                <Text fontWeight="bold">{marker.name}</Text>
+                <Text fontSize="sm">Lat: {marker.lat.toFixed(4)}, Lng: {marker.lng.toFixed(4)}</Text>
+              </ListItem>
+            ))}
+          </List>
+        </Box>
+        </>
+      )}
     </Box>
   );
 }

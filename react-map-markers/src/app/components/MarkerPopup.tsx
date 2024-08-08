@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Box, Button, Input, VStack, IconButton } from '@chakra-ui/react';
 import { CloseIcon } from '@chakra-ui/icons';
-import { useMarkerStore } from '../store/useMarkerStore';
+import { useMarkerStore } from '../../store/useMarkerStore';
 
 type MarkerPopupProps = {
   lat: number;

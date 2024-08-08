@@ -1,3 +1,4 @@
+import Navbar from './components/Navbar'
 import { fonts } from './fonts'
 import { Providers } from './providers'
 
@@ -9,6 +10,7 @@ export default function RootLayout({
   return (
     <html lang='en' className={fonts.poppins.className}>
       <body>
+        <Navbar/>
         <Providers>{children}</Providers>
       </body>
     </html>
