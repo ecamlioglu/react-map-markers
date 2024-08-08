@@ -21,7 +21,8 @@
     "@redux-devtools/extension": "^3.3.0",
     "@vis.gl/react-google-maps": "^1.1.0",
     "@googlemaps/markerclusterer": "^2.5.3",
-    "@chakra-ui/icons": "^2.1.1"
+    "@chakra-ui/icons": "^2.1.1",
+    "@netlify/plugin-nextjs": "^5.6.0"
   },
   "devDependencies": {
     "typescript": "^5",
