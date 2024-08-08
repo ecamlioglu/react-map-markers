@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: react-map-markers/
+        working-directory: react-map-markers
 
     steps:
       - name: Repository Checkout
