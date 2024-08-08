@@ -38,7 +38,7 @@ jobs:
           yarn install --frozen-lockfile --ignore-optional --offline
 
       - name: Install Netlify
-        run: yarn install netlify-cli@17.10.1 -g
+        run: yarn global add netlify-cli@17.10.1
 
       - name: Install Dependencies
         run: yarn ci
