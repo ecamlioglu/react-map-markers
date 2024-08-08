@@ -40,9 +40,6 @@ jobs:
       - name: Install Netlify
         run: yarn global add netlify-cli@17.10.1
 
-      - name: Install Dependencies
-        run: yarn ci
-
       - name: Build project
         run: yarn build
 
