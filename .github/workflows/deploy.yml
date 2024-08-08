@@ -2,9 +2,16 @@ name: Deploy website
 
 on: [push]
 
+defaults:
+  run:
+    working-directory: react-map-markers/
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: react-map-markers/
 
     steps:
       - name: Repository Checkout
@@ -19,19 +26,15 @@ jobs:
         with:
           node-version: 20
           cache: "yarn"
-        working-directory: react-map-markers 
 
       - name: Install Netlify
-        run: npm install netlify-cli@17.10.1 -g
-        working-directory: react-map-markers
+        run: yarn install netlify-cli@17.10.1 -g
 
       - name: Install Dependencies
-        run: yarn install --frozen-lockfile
-        working-directory: react-map-markers
+        run: yarn ci
 
       - name: Build project
         run: yarn build
-        working-directory: react-map-markers
 
       - name: Deploy to Netlify
         id: netlify_deploy
@@ -40,4 +43,3 @@ jobs:
             --dir dist \
             --site ${{ secrets.NETLIFY_SITE_ID }} \
             --auth ${{ secrets.NETLIFY_API_TOKEN }}
-        working-directory: react-map-markers
