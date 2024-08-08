@@ -14,6 +14,8 @@ jobs:
     strategy:
       matrix:
         node-version: [20.x]
+    env: # Env variables needed during build
+      NEXT_PUBLIC_GOOGLE_MAPS_API_KEY:  ${{secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}
     defaults:
       run:
         working-directory: react-map-markers/
@@ -39,13 +41,16 @@ jobs:
           yarn policies set-version
           yarn install --frozen-lockfile --ignore-optional --offline
 
+
+      - name: Set Secrets and Change Dir
+        run: | 
+          echo "NEXT_PUBLIC_GOOGLE_MAPS_API_KEY=${{secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY}}" >> .env.local
+
       - name: Install Netlify
         run: yarn global add netlify-cli@17.10.1
 
       - name: Build project
         run: yarn build
-        env:
-          NEXT_PUBLIC_GOOGLE_MAPS_API_KEY: ${{ secrets.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY }}
 
       - name: Deploy to Netlify
         id: netlify_deploy
