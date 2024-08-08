@@ -5,6 +5,8 @@ on: [push]
 defaults:
   run:
     working-directory: react-map-markers/
+env:
+  name: 'build'
 
 jobs:
   build-and-deploy:
