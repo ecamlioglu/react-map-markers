@@ -9,6 +9,9 @@ defaults:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
     defaults:
       run:
         working-directory: react-map-markers/
@@ -17,15 +20,22 @@ jobs:
       - name: Repository Checkout
         uses: actions/checkout@v4
 
-      - name: List directory contents
-        run: ls -la
-        working-directory: react-map-markers
-
-      - name: Setup NodeJS
-        uses: actions/setup-node@v4
+      - uses: actions/cache@v2
         with:
-          node-version: 20
-          cache: "yarn"
+          path: 'react-map-markers/node_modules'
+          key: ${{ runner.os }}-yarn-${{ hashFiles('react-map-markers/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-                
+      - name: Install Dependencies (from network)
+        if: steps.cache-deps.outputs.cache-hit != 'true'
+        run: |
+          yarn policies set-version
+          yarn install --frozen-lockfile --ignore-optional
+      - name: Install Dependencies (from cache)
+        if: steps.cache-deps.outputs.cache-hit == 'true'
+        run: |
+          yarn policies set-version
+          yarn install --frozen-lockfile --ignore-optional --offline
 
       - name: Install Netlify
         run: yarn install netlify-cli@17.10.1 -g
