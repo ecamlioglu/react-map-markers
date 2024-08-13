@@ -61,9 +61,7 @@ export default function Home() {
           mapId='SELECTABLE_MAP'
           defaultCenter={ center }
           onClick={onMapClick}
-          onCameraChanged={ (ev: MapCameraChangedEvent) =>
-            console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
-          }>
+          >
         {markers.map((marker, index) => (
           <AdvancedMarker
             key={index}

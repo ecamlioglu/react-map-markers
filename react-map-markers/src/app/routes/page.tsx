@@ -38,10 +38,7 @@ export default function Home() {
           style={{width: '100vw', height: 'calc(100vh - 60px)'}}
           defaultZoom={8}
           mapId='ROUTER_MAP'
-          defaultCenter={ center }
-          onCameraChanged={ (ev: MapCameraChangedEvent) =>
-            console.log('camera changed:', ev.detail.center, 'zoom:', ev.detail.zoom)
-          }>
+          defaultCenter={ center }>
         {markers.map((marker, index) => (
           <AdvancedMarker
             key={index}

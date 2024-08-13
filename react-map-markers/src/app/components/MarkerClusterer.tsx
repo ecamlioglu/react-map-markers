@@ -24,7 +24,6 @@ const MarkerClustererComponent: React.FC<MarkerClustererProps> = ({ map }) => {
         markerCluster.clearMarkers();
       };
     }
-    console.log('map', map);
   }, [map, markers]);
 
   return null;
